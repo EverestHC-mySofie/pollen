@@ -24,7 +24,7 @@ module Pollen
     end
 
     def check_redis!
-      raise InvalidConfiguration, 'Redis not set, please assign a Redis client in client configuration' if redis.nil?
+      raise InvalidConfiguration, 'Redis not set, please assign a Redis controller in controller configuration' if redis.nil?
     end
 
     def load_stream(stream_or_id)

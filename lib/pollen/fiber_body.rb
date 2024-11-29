@@ -14,7 +14,6 @@ module Pollen
       pusher.push(nil, event: :terminated)
       pusher.close
     rescue IOError
-      # TODO: log client has disconnected
     end
 
     def init!(connection)

@@ -35,7 +35,7 @@ module Pollen
     end
   end
 
-  class ClientConfiguration < Configuration
+  class ControllerConfiguration < Configuration
     attr_reader :retention
 
     def initialize

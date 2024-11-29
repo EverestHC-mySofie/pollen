@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Pollen
-  class Client
+  class Controller
     include Configurable
     include Commands
 
@@ -9,7 +9,7 @@ module Pollen
       return @configuration if @configuration
 
       @configuration = CompositeConfiguration.new(
-        ClientConfiguration.new,
+        ControllerConfiguration.new,
         Pollen.common.configuration
       )
     end

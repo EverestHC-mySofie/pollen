@@ -10,7 +10,7 @@ require 'pollen/partitioner'
 require 'pollen/pusher'
 require 'pollen/subscriber'
 
-require 'pollen/client'
+require 'pollen/controller'
 require 'pollen/middleware'
 require 'pollen/server'
 require 'pollen/engine'
@@ -33,8 +33,8 @@ module Pollen
       @server ||= Server.new
     end
 
-    def client
-      @client ||= Client.new
+    def controller
+      @controller ||= Controller.new
     end
 
     def common
