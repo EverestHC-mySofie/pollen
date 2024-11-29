@@ -7,13 +7,13 @@ from the server.
 
 Pollen allows client applications to subscribe to streams of server-side events.
 
-![Getting started](https://github.com/EverestHC-mySofie/pollen/blob/main/doc/pollen-getting-started.png?raw=true)
+![Getting started](https://github.com/EverestHC-mySofie/pollen/blob/main/resources/pollen-getting-started.png?raw=true)
 
 Pollen hijacks Rack requests corresponding to a specific route set (`/pollens/streams/:stream_id`)
 and opens long running HTTP connections handled by an event loop and Ruby Fibers. All requests
 outside this route are ignored by Pollen and forwarded to Rails.
 
-![Getting started](https://github.com/EverestHC-mySofie/pollen/blob/main/doc/pollen-event-loop.png?raw=true)
+![Event Loop](https://github.com/EverestHC-mySofie/pollen/blob/main/resources/pollen-event-loop.png?raw=true)
 
 On the server-side, processes, such as background jobs, use the Pollen controller to push updates
 and handle the streams states. Communication between the controllers and the server is performed
