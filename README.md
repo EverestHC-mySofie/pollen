@@ -39,6 +39,12 @@ Or install it yourself as:
 $ gem install pollen
 ```
 
+To install the migrations into your Rails application:
+
+```bash
+rails pollen:install:migrations
+```
+
 ## Usage
 
 We create a module that extracts access tokens from requests:
