@@ -1,0 +1,7 @@
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*_spec.rb
+    - pollen.gemspec
+
+Style/Documentation:
+  Enabled: false
