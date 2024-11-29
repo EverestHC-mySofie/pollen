@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 Pollen.common.configure do |c|
-  cmd = "docker inspect --format '{{.NetworkSettings.Networks.mysofiepay_default.IPAddress}}'  " \
-        'mysofiepay-redis-1 2>/dev/null'
-  c.redis Redis.new(url: "redis://#{`#{cmd}`.chomp}")
+  c.redis Redis.new(url: "redis://127.0.0.1:6379")
 end
 
 Pollen.server.configure do |c|
