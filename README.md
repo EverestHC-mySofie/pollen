@@ -9,17 +9,19 @@ Pollen allows client applications to subscribe to streams of server-side events.
 
 ![Getting started](https://github.com/EverestHC-mySofie/pollen/blob/main/resources/pollen-getting-started.png?raw=true)
 
-Pollen hijacks Rack requests corresponding to a specific route set (`/pollens/streams/:stream_id`)
+When a client application wants to subscribe to a steam, it opens an HTTP connection with the
+Pollen server. Pollen hijacks Rack requests corresponding to a specific route set (`/pollens/streams/:stream_id`)
 and opens long running HTTP connections handled by an event loop and Ruby Fibers. All requests
 outside this route are ignored by Pollen and forwarded to Rails.
-
-![Event Loop](https://github.com/EverestHC-mySofie/pollen/blob/main/resources/pollen-event-loop.png?raw=true)
 
 On the server-side, processes, such as background jobs, use the Pollen controller to push updates
 and handle the streams states. Communication between the controllers and the server is performed
 via Redis Pub/Sub.
 
-Pollen can handle 10k+ concurrent connections on a single CPU.
+Thanks to the event loop and the usage of Ruby Fibers, Pollen can handle 10k+ concurrent connections
+on a single CPU.
+
+![Event Loop](https://github.com/EverestHC-mySofie/pollen/blob/main/resources/pollen-event-loop.png?raw=true)
 
 ## Installation
 
@@ -47,7 +49,7 @@ rails pollen:install:migrations
 
 ## Usage
 
-We create a module that extracts access tokens from requests:
+We first create a module that extracts access tokens from requests:
 
 ```ruby
 # lib/token_extractor.rb
