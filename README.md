@@ -49,7 +49,9 @@ rails pollen:install:migrations
 
 ## Usage
 
-We first create a module that extracts access tokens from requests:
+### Authenticate stream clients
+
+We create a module that extracts access tokens from requests:
 
 ```ruby
 # lib/token_extractor.rb
@@ -66,6 +68,8 @@ module TokenExtractor
   end
 end
 ```
+
+### Start the pollen server
 
 We then create an initializer to provide the Redis client and the authentication method to the
 Pollen server.  We also start the Pollen server if the environment variable `START_POLLEN` is
@@ -90,6 +94,8 @@ end
 
 Pollen.server.start! if ENV['START_POLLEN'] == 'true'
 ```
+
+### Push events using the controller
 
 Now, when the client application calls Rails to perform long-running task, such as generating 
 the quaterly report of the _World Company®_, a regular Rails controller authenticates the
@@ -176,6 +182,19 @@ event: completed
 data: {"id":"702943d6-49e4-45ba-9a6f-630fadd3e2c7"}
 event: terminated
 ```
+
+### Delete old streams
+
+Stream instances are stored in the database and, in high traffic environments,
+may pile up to millions of records a day.
+
+Pollen provides a `pollen:prune_streams` Rails task typically run from a scheduled
+task such as a Cron job. As _Stream_ objects are basically _ActiveRecord_ models,
+it is also possible to use plain-old ActiveRecord queries to delete oldest _Streams_.
+
+### Configuration
+
+See the [wiki](https://github.com/EverestHC-mySofie/pollen/wiki/Configuration) for configuration options.
 
 ## Contributing
 
