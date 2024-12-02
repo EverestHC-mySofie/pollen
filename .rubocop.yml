@@ -3,5 +3,9 @@ Metrics/BlockLength:
     - spec/**/*_spec.rb
     - pollen.gemspec
 
+AllCops:
+  Exclude:
+    - test/dummy/db/schema.rb
+
 Style/Documentation:
   Enabled: false

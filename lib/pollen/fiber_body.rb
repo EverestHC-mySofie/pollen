@@ -7,13 +7,14 @@ module Pollen
     end
 
     # TODO: Assign a Fiber scheduler to handle blocking kernel calls
-    def execute!(connection) # rubocop:disable Metrics/MethodLength
+    def execute!(connection)
       init!(connection)
       pusher.push(connection.payload, event: connection.event)
       loop! if pending?(connection.event)
       pusher.push(nil, event: :terminated)
       pusher.close
     rescue IOError
+      # The Fiber should die when it can't write to socket
     end
 
     def init!(connection)

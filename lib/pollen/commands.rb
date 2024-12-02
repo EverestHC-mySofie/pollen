@@ -24,12 +24,18 @@ module Pollen
     end
 
     def check_redis!
-      raise InvalidConfiguration, 'Redis not set, please assign a Redis controller in controller configuration' if redis.nil?
+      return unless redis.nil?
+
+      raise InvalidConfiguration,
+            'Redis not set, please assign a Redis controller in controller configuration'
     end
 
     def load_stream(stream_or_id)
       stream_or_id.respond_to?(:id) && stream_or_id || Stream.find(stream_or_id).tap do |stream|
-        raise Errors::InvalidStreamStatus, "Stream with id #{stream.id} is already #{stream.status}" unless stream.pending?
+        unless stream.pending?
+          raise Errors::InvalidStreamStatus,
+                "Stream with id #{stream.id} is already #{stream.status}"
+        end
       end
     end
   end

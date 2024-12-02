@@ -15,20 +15,24 @@ module Pollen
       if @server.started? && (stream_id = request.path.match(@route)&.captures&.first)
         raise 'Unable to hijack HTTP connection' unless env['rack.hijack?']
 
-        load_stream(stream_id, request, env).tap do |stream|
-          @server.accept(env['rack.hijack'].call, stream)
-        end
-        [200, {}, []]
+        authenticate_and_hijack(request, env, stream_id)
       else
         @app.call(env)
       end
+    end
+
+    private
+
+    def authenticate_and_hijack(request, env, stream_id)
+      load_stream(stream_id, request, env).tap do |stream|
+        @server.accept(env['rack.hijack'].call, stream)
+      end
+      [200, {}, []]
     rescue Errors::AuthenticationFailure
       [401, {}, []]
     rescue Errors::StreamNotFound
       [404, {}, []]
     end
-
-    private
 
     def authenticate_owner(stream_id, request, env)
       authenticator.call(request, env).tap do |owner|
