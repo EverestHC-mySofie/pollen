@@ -26,11 +26,11 @@ module Pollen
       while Time.now.to_i < @connection.terminate_at
         heartbeat!
         event = Fiber.yield
-        if event
-          pusher.push(event[:data], event: event[:event])
-          @latest_heartbeat = Time.now.to_i
-          break if completed?(event[:event])
-        end
+        next unless event
+
+        pusher.push(event[:data], event: event[:event])
+        @latest_heartbeat = Time.now.to_i
+        break if completed?(event[:event])
       end
     end
 
