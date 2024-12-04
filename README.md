@@ -5,7 +5,7 @@ from the server.
 
 ## How it works
 
-Pollen allows client applications to subscribe to streams of server-side events.
+Pollen allows client applications to subscribe to streams of server-sent events.
 
 ![Getting started](https://github.com/EverestHC-mySofie/pollen/blob/main/resources/pollen-getting-started.png?raw=true)
 
