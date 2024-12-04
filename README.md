@@ -192,7 +192,7 @@ Pollen provides a `pollen:prune_streams` Rails task typically run from a schedul
 task such as a Cron job. As _Stream_ objects are basically _ActiveRecord_ models,
 it is also possible to use plain-old ActiveRecord queries to delete oldest _Streams_.
 
-### Configuration
+### Configuration
 
 See the [wiki](https://github.com/EverestHC-mySofie/pollen/wiki/Configuration) for configuration options.
 
