@@ -13,8 +13,12 @@ module Pollen
       socket_puts
     end
 
+    def comment
+      write_chunk [':', "\n"].compact.join("\n")
+    end
+
     def push(payload, event:)
-      write_chunk ["event: #{event}", payload ? "data: #{payload}" : nil, ''].compact.join("\n")
+      write_chunk ["event:#{event}", payload ? "data:#{payload}" : nil, "\n"].compact.join("\n")
     end
 
     def close
