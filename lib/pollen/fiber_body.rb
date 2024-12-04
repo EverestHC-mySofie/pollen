@@ -23,11 +23,12 @@ module Pollen
     end
 
     def loop!
-      while Time.now < @connection.terminate_at
+      while Time.now.to_i < @connection.terminate_at
         heartbeat!
         event = Fiber.yield
         if event
           pusher.push(event[:data], event: event[:event])
+          @latest_heartbeat = Time.now.to_i
           break if completed?(event[:event])
         end
       end
@@ -44,7 +45,7 @@ module Pollen
     def heartbeat!
       return unless Time.now.to_i > @latest_heartbeat + Pollen.server.configuration.heartbeat
 
-      pusher.push(nil, event: :heartbeat)
+      pusher.comment
       @latest_heartbeat = Time.now.to_i
     end
 
