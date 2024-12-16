@@ -140,8 +140,8 @@ as completed and closes the connection:
 
 class GenerateQuarterlyReportJob < ApplicationJob
   def perform(stream)
-    10.times to |i|
-      Pollen.controller.push(stream, :update, { step: i }.to_json)
+    10.times do |i|
+      Pollen.controller.push!(stream, :update, { step: i }.to_json)
       sleep 1
     end
     Report.create!
