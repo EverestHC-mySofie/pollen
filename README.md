@@ -60,7 +60,7 @@ module TokenExtractor
   class << self
     def token(request)
       pattern = /^Bearer /
-      header  = request.headers['Authorization']
+      header  = request.get_header('HTTP_AUTHORIZATION')
       return unless header&.match(pattern)
 
       header.gsub(pattern, '')
