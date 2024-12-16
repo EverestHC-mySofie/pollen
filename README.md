@@ -86,7 +86,7 @@ end
 Pollen.server.configure do |c|
   c.authenticate do |request, env|
     token = TokenExtractor.token(request)
-    break if token.blank?
+    next if token.blank?
 
     AccessToken.find_by(token: token)&.user
   end
