@@ -14,13 +14,20 @@ module Pollen
       check_redis!
       stream = load_stream(stream_or_id)
       stream.update!(status: %i[completed failed].include?(event) && event || :pending, payload:)
-      redis.publish("#{configuration.channel_prefix}:#{stream.id}", "#{event}:#{payload}")
+      with_redis do |r|
+        r.publish("#{configuration.channel_prefix}:#{stream.id}", "#{event}:#{payload}")
+      end
     end
 
     private
 
     def redis
       configuration.redis
+    end
+
+    def with_redis(&block)
+      # Allow raw Redis clients or a client from the pool
+      configuration.redis.then(&block)
     end
 
     def check_redis!
