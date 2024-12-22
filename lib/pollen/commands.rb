@@ -38,7 +38,7 @@ module Pollen
     end
 
     def load_stream(stream_or_id)
-      stream_or_id.respond_to?(:id) && stream_or_id || Stream.find(stream_or_id).tap do |stream|
+      (stream_or_id.respond_to?(:id) && stream_or_id || Stream.find(stream_or_id)).tap do |stream|
         unless stream.pending?
           raise Errors::InvalidStreamStatus,
                 "Stream with id #{stream.id} is already #{stream.status}"
