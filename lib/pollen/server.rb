@@ -11,9 +11,7 @@ module Pollen
 
     def start!
       @thread = Thread.new do
-        loop do
-          next_tick
-        end
+        start_loop
       end
       self
     end
@@ -33,6 +31,12 @@ module Pollen
     end
 
     private
+
+    def start_loop
+      loop do
+        next_tick
+      end
+    end
 
     def next_tick
       incoming = nil
@@ -68,7 +72,7 @@ module Pollen
     end
 
     def started?
-      @started
+      !!@started
     end
 
     def push(stream_id, *args)
@@ -81,10 +85,6 @@ module Pollen
       )
     end
 
-    def executor(stream_id)
-      @executors[@partitioner.partition(stream_id)]
-    end
-
     def configuration
       return @configuration if @configuration
 
@@ -92,6 +92,12 @@ module Pollen
         ServerConfiguration.new,
         Pollen.common.configuration
       )
+    end
+
+    private
+
+    def executor(stream_id)
+      @executors[@partitioner.partition(stream_id)]
     end
   end
 end
