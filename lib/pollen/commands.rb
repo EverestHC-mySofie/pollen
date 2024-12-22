@@ -33,8 +33,8 @@ module Pollen
     def check_redis!
       return unless redis.nil?
 
-      raise InvalidConfiguration,
-            'Redis not set, please assign a Redis controller in controller configuration'
+      raise Errors::InvalidConfiguration,
+            'Redis not set, please assign a Redis client or connection pool in controller configuration'
     end
 
     def load_stream(stream_or_id)
