@@ -9,7 +9,10 @@ module Pollen
     end
 
     def start!
-      raise InvalidConfiguration, 'Redis not set, please assign a Redis client in server configuration' if redis.nil?
+      if redis.nil?
+        raise Errors::InvalidConfiguration,
+              'Redis not set, please assign a Redis client in server configuration'
+      end
 
       Thread.new { subscribe! }
     end
@@ -35,7 +38,7 @@ module Pollen
     end
 
     def redis
-      @redis ||= Pollen.server.configuration.redis
+      @redis ||= @server.configuration.redis
     end
   end
 end
