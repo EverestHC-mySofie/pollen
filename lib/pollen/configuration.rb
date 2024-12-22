@@ -54,6 +54,7 @@ module Pollen
       @configs.each do |config|
         return config.send(name) if config.respond_to?(name) && !config.send(name).nil?
       end
+      nil
     end
 
     def respond_to_missing?(name, _ = false)
