@@ -32,6 +32,7 @@ module Pollen
       @concurrency = 1
       @heartbeat = 5
       @route_regexp = %r{^/pollen/streams/(#{UUID_REGEXP})}
+      @authenticator = ->(_, _) {}
     end
   end
 
