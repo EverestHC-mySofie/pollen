@@ -5,7 +5,7 @@ Metrics/BlockLength:
 
 AllCops:
   Exclude:
-    - test/dummy/db/schema.rb
+    - spec/dummy/db/schema.rb
     - vendor/**/*
 
 Style/Documentation:

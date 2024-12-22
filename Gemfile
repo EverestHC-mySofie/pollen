@@ -12,3 +12,5 @@ gem 'sqlite3'
 gem 'propshaft'
 
 gem 'rubocop-rails', require: false
+
+gem 'simplecov'
