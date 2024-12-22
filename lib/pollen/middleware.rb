@@ -4,10 +4,10 @@ module Pollen
   class Middleware
     UUID_REGEXP = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
 
-    def initialize(app, route: %r{^/pollen/streams/(#{UUID_REGEXP})})
+    def initialize(app)
       @app = app
-      @route = route
       @server = Pollen.server
+      @route = @server.configuration.route_regexp
     end
 
     def call(env)
