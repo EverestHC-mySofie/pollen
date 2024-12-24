@@ -7,6 +7,8 @@ AllCops:
   Exclude:
     - spec/dummy/db/schema.rb
     - vendor/**/*
+  SuggestExtensions: false
+  NewCops: enable
 
 Style/Documentation:
   Enabled: false

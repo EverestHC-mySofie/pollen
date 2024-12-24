@@ -23,7 +23,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'rails', '>= 7.2.0'
   spec.add_dependency 'redis'
-
-  spec.add_development_dependency 'factory_bot_rails'
-  spec.add_development_dependency 'rspec-rails'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end

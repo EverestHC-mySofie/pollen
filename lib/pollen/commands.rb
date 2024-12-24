@@ -13,7 +13,7 @@ module Pollen
     def push!(stream_or_id, event, payload)
       check_redis!
       stream = load_stream(stream_or_id)
-      stream.update!(status: %i[completed failed].include?(event) && event || :pending, payload:)
+      stream.update!(status: (%i[completed failed].include?(event) && event) || :pending, payload:)
       with_redis do |r|
         r.publish("#{configuration.channel_prefix}:#{stream.id}", "#{event}:#{payload}")
       end
@@ -25,9 +25,9 @@ module Pollen
       configuration.redis
     end
 
-    def with_redis(&block)
+    def with_redis(&)
       # Allow raw Redis clients or a client from the pool
-      configuration.redis.then(&block)
+      configuration.redis.then(&)
     end
 
     def check_redis!
@@ -38,7 +38,7 @@ module Pollen
     end
 
     def load_stream(stream_or_id)
-      (stream_or_id.respond_to?(:id) && stream_or_id || Stream.find(stream_or_id)).tap do |stream|
+      ((stream_or_id.respond_to?(:id) && stream_or_id) || Stream.find(stream_or_id)).tap do |stream|
         unless stream.pending?
           raise Errors::InvalidStreamStatus,
                 "Stream with id #{stream.id} is already #{stream.status}"
