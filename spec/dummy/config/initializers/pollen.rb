@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 Pollen.common.configure do |c|
-  cmd = "docker inspect --format '{{.NetworkSettings.Networks.mysofiepay_default.IPAddress}}'  " \
-        'mysofiepay-redis-1 2>/dev/null'
-  c.redis Redis.new(url: "redis://#{`#{cmd}`.chomp}")
+  c.redis Redis.new(url: 'redis://localhost')
 end
 
 Pollen.server.configure do |c|
   c.authenticate do |_request, _env|
     User.first
   end
+
+  # c.load_stream do |owner, id, _request, _env|
+  #   Pollen::Stream.find_by(owner: owner, id: id)
+  # end
 end
 
 Pollen.server.start! if ENV['START_POLLEN'] == 'true'

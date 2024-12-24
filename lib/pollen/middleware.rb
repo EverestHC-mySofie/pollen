@@ -41,13 +41,17 @@ module Pollen
     end
 
     def load_stream(stream_id, request, env)
-      Stream.find_by(owner: authenticate_owner(stream_id, request, env), id: stream_id).tap do |stream|
+      stream_loader.call(authenticate_owner(stream_id, request, env), stream_id, request, env).tap do |stream|
         raise Errors::StreamNotFound, "Unable to find stream with ID #{stream_id}" if stream.nil?
       end
     end
 
     def authenticator
-      Pollen.server.configuration.authenticator
+      @server.configuration.authenticator
+    end
+
+    def stream_loader
+      @server.configuration.stream_loader
     end
   end
 end

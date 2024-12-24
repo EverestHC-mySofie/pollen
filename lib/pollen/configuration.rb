@@ -25,7 +25,7 @@ module Pollen
     UUID_REGEXP = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
 
     attr_reader :concurrency, :heartbeat, :route_regexp
-    attr_accessor :authenticator
+    attr_accessor :authenticator, :stream_loader
 
     def initialize
       super
@@ -33,6 +33,7 @@ module Pollen
       @heartbeat = 5
       @route_regexp = %r{^/pollen/streams/(#{UUID_REGEXP})}
       @authenticator = ->(_, _) {}
+      @stream_loader = ->(owner, id, _request, _env) { Stream.find_by(owner: owner, id: id) }
     end
   end
 
@@ -73,6 +74,10 @@ module Pollen
 
     def authenticate(&block)
       @configuration.root.authenticator = block
+    end
+
+    def load_stream(&block)
+      @configuration.root.stream_loader = block
     end
 
     def method_missing(name, *args, **_)

@@ -63,6 +63,13 @@ RSpec.describe Pollen::Middleware do
           expect(server).to receive(:accept).with socket, stream
           expect(middleware.call(env)).to eq [200, {}, []]
         end
+
+        it 'uses the specified stream loader' do
+          Pollen.server.configure { |c| c.stream_loader ->(_, _, _, _) {} }
+          stream = create(:stream, owner: user)
+          env['PATH_INFO'] = "/pollen/streams/#{stream.id}"
+          expect(middleware.call(env)).to eq [404, {}, []]
+        end
       end
     end
   end
