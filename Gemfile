@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in pollen.gemspec.
 gemspec
 
+gem 'rails', '~> 8'
 gem 'puma'
 
 gem 'sqlite3'
