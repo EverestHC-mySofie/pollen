@@ -15,11 +15,11 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.1
+          ruby-version: 3.3.5
           bundler-cache: true
 
       - name: Lint code for consistent style
-        run: bin/rubocop
+        run: bin/rubocop -c .rubocop.yml
 
   test:
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.3.1
+          ruby-version: 3.3.5
           bundler-cache: true
 
       - name: Run tests
