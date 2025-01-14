@@ -5,16 +5,12 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in pollen.gemspec.
 gemspec
 
-gem 'puma'
-
 gem 'rails', '~> 8'
 
-gem 'sqlite3'
-
-gem 'propshaft'
-
-gem 'rubocop-rails', require: false
-
-gem 'factory_bot_rails'
-gem 'rspec-rails'
-gem 'simplecov'
+group :development, :test do
+  gem 'factory_bot_rails'
+  gem 'rspec-rails'
+  gem 'rubocop-rails', require: false
+  gem 'simplecov'
+  gem 'sqlite3'
+end
