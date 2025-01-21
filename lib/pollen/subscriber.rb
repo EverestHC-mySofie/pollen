@@ -13,21 +13,25 @@ module Pollen
         raise Errors::InvalidConfiguration,
               'Redis not set, please assign a Redis client in server configuration'
       end
-      Thread.new do
-        loop do
-          subscribe!
-        rescue RedisClient::Error => e
-          on_redis_failure!
-        end
-      end
+      spawn_thread!
     end
 
     private
 
-    def on_redis_failure!
+    def spawn_thread!
+      Thread.new do
+        loop do
+          subscribe!
+        rescue RedisClient::Error => e
+          on_redis_failure! e
+        end
+      end
+    end
+
+    def on_redis_failure!(exception)
       @server.configuration.failed_subscriber_wait_time.tap do |time|
         sleep time if time.positive?
-        Pollen.logger&.warn "Lost connection to Redis: #{e.message}, restarting"
+        Pollen.logger&.warn "Lost connection to Redis: #{exception.message}, restarting"
       end
     end
 
