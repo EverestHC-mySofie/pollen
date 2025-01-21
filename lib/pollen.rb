@@ -28,6 +28,8 @@ module Pollen
   end
 
   class << self
+    attr_accessor :logger
+
     def server
       @server ||= Server.new
     end
