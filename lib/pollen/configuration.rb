@@ -24,7 +24,7 @@ module Pollen
   class ServerConfiguration < Configuration
     UUID_REGEXP = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
 
-    attr_reader :concurrency, :heartbeat, :route_regexp
+    attr_reader :concurrency, :heartbeat, :route_regexp, :failed_subscriber_wait_time
     attr_accessor :authenticator, :stream_loader
 
     def initialize
@@ -34,6 +34,7 @@ module Pollen
       @route_regexp = %r{^/pollen/streams/(#{UUID_REGEXP})}
       @authenticator = ->(_, _) {}
       @stream_loader = ->(owner, id, _request, _env) { Stream.find_by(owner: owner, id: id) }
+      @failed_subscriber_wait_time = 0
     end
   end
 

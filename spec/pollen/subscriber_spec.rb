@@ -15,6 +15,7 @@ RSpec.describe Pollen::Subscriber do
     before do
       server.configure { |c| c.redis redis }
       expect(Thread).to receive(:new).and_yield
+      expect(subscriber).to receive(:loop).and_yield
     end
 
     it 'subscribes to the pattern' do
