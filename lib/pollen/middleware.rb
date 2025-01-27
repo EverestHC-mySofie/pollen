@@ -29,8 +29,10 @@ module Pollen
       end
       [200, {}, []]
     rescue Errors::AuthenticationFailure
+      Pollen.logger&.info "Rejected connection to stream #{stream_id}, authentification failed"
       [401, {}, []]
     rescue Errors::StreamNotFound
+      Pollen.logger&.info "Rejected connection to stream #{stream_id}, stream not found"
       [404, {}, []]
     end
 
